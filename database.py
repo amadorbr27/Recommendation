@@ -36,7 +36,10 @@ class Database:
                 language VARCHAR(30) NOT NULL,
                 period_start INTEGER,
                 period_end INTEGER,
-                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                article_title TEXT,
+                article_link TEXT,
+                article_description TEXT,
+                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,               
                 FOREIGN KEY (user_id) REFERENCES users(id)
             )
         ''')
