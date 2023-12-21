@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usuários Cadastrados</title>
+    <style>
+        /* Estilos para melhorar a apresentação da lista de usuários */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .button a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .button a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Usuários Cadastrados</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Action</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Country</th>
+                <th>Language</th>
+                <th>Birthdate</th>
+                <th>Occupation</th>
+                <th>Interest</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td><a href="/edit_user/{{ user[0] }}">Edit</a></td>
+                    <td>{{ user[1] }}</td>
+                    <td>{{ user[2] }}</td>
+                    <td>{{ user[3] }}</td>
+                    <td>{{ user[5] }}</td>
+                    <td>{{ user[6] }}</td>
+                    <td>{{ user[7] }}</td>
+                    <td>{{ user[8] }}</td>
+                    <td>{{ user[9] }}</td>
+                    <td>{{ user[10] }}</td>
+                    <td>{{ user[11] }}</td>
+                    <td>{{ user[12] }}</td>
+                    <!-- Adicione mais colunas conforme necessário para exibir os detalhes do usuário -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="button">
+        <a href="/register">Voltar</a>
+    </div>
+</body>
+</html>

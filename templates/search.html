@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Busca de Artigos</title>
+    <style>
+        /* Estilos para o layout */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: left;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .search-container {
+            display: flex;
+            gap: 50px;
+            font-size: 14px;
+        }
+        .filters {
+            width: 25%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .recomend {
+            width: 40%;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .recomend a {
+            text-decoration: none; /* Removendo o sublinhado padrão dos links */
+            color: #007bff; /* Alterando a cor do link */
+            transition: color 0.3s; /* Adicionando uma transição suave na mudança de cor do link */
+        }
+        .recomend a:hover {
+            color: #0056b3; /* Mudando a cor do link ao passar o mouse */
+        }
+        .search-form {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            width: 100%;
+        }
+        .search-form input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        .search-form input[type="submit"] {
+            width: calc(100% - 20px);
+            background-color: #007bff;
+            color: white;
+            padding: 12px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .button a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .article {
+            margin-bottom: 20px; /* Adicionando margem entre artigos */
+        }
+        
+        .articles a {
+            text-decoration: none; /* Removendo o sublinhado padrão dos links */
+            color: #007bff; /* Alterando a cor do link */
+            transition: color 0.3s; /* Adicionando uma transição suave na mudança de cor do link */
+        }
+        
+        .articles a:hover {
+            color: #0056b3; /* Mudando a cor do link ao passar o mouse */
+        }
+    </style>
+</head>
+<body>
+    <h1>Busca de Artigos</h1>
+    <p>
+        Usuário: {{user.name}}
+        <br>
+        Área de Interesse: {{user.interest}}
+    </p>
+    <div class="search-container">
+        <div class="filters">
+            <h3>Filtros</h3>
+            <form id="filterForm">
+                <p>
+                    <label for="language">Idioma:</label>
+                    <select id="language" name="language">
+                        <option value="lang_pt">Português</option>
+                        <option value="lang_en">Inglês</option>
+                        <option value="lang_es">Espanhol</option>
+                    </select>
+                </p>    
+                <p>
+                    <label>Ordenar por:</label><br>
+                    <input type="radio" id="relevance" name="sort_by_date" value="0" checked>
+                    <label for="relevance">Relevância</label>
+                    <br>
+                    <input type="radio" id="date" name="sort_by_date" value="1">
+                    <label for="date">Data</label>
+                </p>
+                <p>
+                    <label for="period_start">Ano inicial:</label>
+                    <input type="number" id="period_start" name="period_start" min="1900" max="2100">
+                    <br>
+                    <label for="period_end">Ano final:</label>
+                    <input type="number" id="period_end" name="period_end" min="1900" max="2100">
+                </p>
+                <br><br>
+                <input type="submit" value="Buscar">
+            </form>
+        </div>
+        <div>
+            <!-- Formulário de busca -->
+            <div class="search-form">
+                <form id="searchForm">
+                    <input type="text" id="query" name="query" placeholder="Digite sua busca...">
+                    <input type="submit" value="Buscar">
+                </form>
+            </div>
+            <!-- Resultados e recomendações -->
+            <div class="articles">
+                {% for article in results %}
+                    <div class="article">
+                        <h3><a href = "{{article.link}}"> {{ article.title }} </a></h3>
+                        <p><strong>Authors:</strong> {{ article.authors }}</p>
+                        <p><strong>Description:</strong> {{ article.description }}</p>
+                        <hr>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Exibição das recomendações -->
+        <div class="recomend">
+            <h3>Recomendações<br>(Mais buscados)</h3>
+            {% for article in recommendation %}
+                    <div class="article">
+                        <a href = "{{article.link}}"> {{ article.title }} </a>
+                        <hr>
+                    </div>
+                {% endfor %}
+        </div>
+    </div>
+    <div class="button">
+        <a href="/">Voltar</a>
+    </div>
+
+    <script>
+        // Obtém o formulário de filtro
+        let filterForm = document.getElementById('filterForm');
+
+        // Adiciona um ouvinte de evento para o evento de envio do formulário de filtro
+        filterForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Previne o envio padrão do formulário
+
+            // Obtém os valores selecionados pelo usuário nos filtros
+            let selectedLanguage = document.getElementById('language').value;
+            let sortByDate = document.querySelector('input[name="sort_by_date"]:checked').value;
+            let periodStart = document.getElementById('period_start').value;
+            let periodEnd = document.getElementById('period_end').value;
+
+            // Constrói a nova URL com os parâmetros dos filtros selecionados
+            let currentURL = window.location.href;
+            let newURL = new URL(currentURL);
+            newURL.searchParams.set('language', selectedLanguage);
+            newURL.searchParams.set('sort_by_date', sortByDate);
+            newURL.searchParams.set('period_start', periodStart);
+            newURL.searchParams.set('period_end', periodEnd);
+
+            // Redireciona para a nova URL com os parâmetros dos filtros selecionados
+            window.location.href = newURL;
+        });
+
+        // Obtém o formulário de busca principal
+        let searchForm = document.getElementById('searchForm');
+
+        // Adiciona um ouvinte de evento para o evento de envio do formulário de busca principal
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Previne o envio padrão do formulário
+
+            // Obtém o valor digitado pelo usuário na busca principal
+            let query = document.getElementById('query').value;
+
+            // Constrói a nova URL com o parâmetro da busca principal
+            let currentURL = window.location.href;
+            let newURL = new URL(currentURL);
+            newURL.searchParams.set('query', query);
+
+            // Redireciona para a nova URL com o parâmetro da busca principal
+            window.location.href = newURL;
+        });
+    </script>
+</body>
+</html>

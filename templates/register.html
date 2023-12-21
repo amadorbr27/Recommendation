@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastro de Usuário</title>
+    <style>
+        /* Estilos para o modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Estilos para melhorar a apresentação do formulário */
+        form {
+            max-width: 800px;
+            margin: 0 auto;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .form-group {
+            flex: 1 1 calc(50% - 10px);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        select,
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="password"],
+        input[type="date"] {
+            width: calc(100% - 12px);
+            padding: 6px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cadastro de Usuário</h1>
+    <form action="/register" method="post">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>            
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone">
+
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required>       
+        </div>
+        <div class="form-group">
+
+            <label for="state">State:</label>
+            <input type="text" id="state" name="state" required>    
+
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country" required>
+
+            <label for="language">Language Preference:</label>
+            <select type="text" id="language" name="language" required>
+                <option value="lang_pt">Portuguese</option>
+                <option value="lang_en">English</option>
+                <option value="lang_es">Spanish</option>
+            </select>
+
+            <label for="birthdate">Birthdate:</label>
+            <input type="date" id="birthdate" name="birthdate" required>
+
+            <label for="occupation">Occupation:</label>
+            <input type="text" id="occupation" name="occupation" required>
+
+            <label for="interest">Interest:</label>
+            <input type="text" id="interest" name="interest" required>
+        
+            <input type="submit" value="Cadastrar">
+        </div>
+    </form>
+    <br><br>
+    <form action="/users" method="get">
+        <input type="submit" value="Consultar Usuários">
+    </form>
+    <p>Já possui uma conta? <a href="/">Faça login</a></p>
+
+</body>
+<body>
+    <!-- Seu formulário de registro -->
+
+    <!-- Modal de sucesso -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p>Sucesso! Usuário registrado com sucesso.</p>
+        </div>
+    </div>
+
+    <script>
+        // Função para exibir o modal de sucesso
+        function showSuccessModal() {
+            document.getElementById('successModal').style.display = 'block';
+        }
+
+        // Função para fechar o modal
+        function closeModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
+
+        // Espera a página ser carregada para chamar a função
+        window.addEventListener('load', function() {
+            {% if success %}
+            showSuccessModal();
+            {% endif %}
+        });
+
+    </script>
+</body>
+</html>
